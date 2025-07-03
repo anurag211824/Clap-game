@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Clap Game</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background: #f2f7ff;
+    }
+
+    .game-container {
+      background: #fff;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+
+    .number {
+      font-size: 3rem;
+      margin: 20px 0;
+      color: #0077ff;
+    }
+
+    input {
+      font-size: 1.5rem;
+      padding: 8px 16px;
+      width: 120px;
+      text-align: center;
+      border-radius: 10px;
+      border: 2px solid #ccc;
+      margin-bottom: 10px;
+    }
+
+    .feedback {
+      font-size: 1.2rem;
+      margin-top: 15px;
+      color: #333;
+    }
+
+    .correct {
+      color: green;
+    }
+
+    .wrong {
+      color: red;
+    }
+
+    button {
+      margin-top: 10px;
+      padding: 10px 20px;
+      font-size: 1rem;
+      border: none;
+      background-color: #0077ff;
+      color: white;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="game-container">
+    <h1>👏 Clap Game</h1>
+    <div class="number" id="number">1</div>
+    <input type="text" id="userInput" placeholder="Type number or x" autocomplete="off" />
+    <br>
+    <button onclick="checkInput()">Submit</button>
+    <div class="feedback" id="feedback"></div>
+  </div>
+
+  <script>
+    let current = 1;
+
+    function isClapNumber(n) {
+      return n % 3 === 0 || n.toString().includes('3');
+    }
+
+    function checkInput() {
+      const input = document.getElementById("userInput").value.trim().toLowerCase();
+      const feedback = document.getElementById("feedback");
+      const correct = isClapNumber(current) ? "x" : current.toString();
+
+      if (input === correct) {
+        feedback.textContent = "✅ Correct!";
+        feedback.className = "feedback correct";
+        current++;
+        document.getElementById("number").textContent = current;
+        document.getElementById("userInput").value = "";
+        document.getElementById("userInput").focus();
+      } else {
+        feedback.textContent = `❌ Wrong! The correct answer was "${correct}"`;
+        feedback.className = "feedback wrong";
+      }
+    }
+
+    // Allow pressing Enter key to submit
+    document.getElementById("userInput").addEventListener("keypress", function (e) {
+      if (e.key === "Enter") {
+        checkInput();
+      }
+    });
+  </script>
+</body>
+</html>
